@@ -1,6 +1,8 @@
 # Задание 4.10 (HW-04)
 
-Образы django и nginx созданны и загружены на docker hub: morro14/docker-task-web:latest morro14/docker-task-nginx:latest (загружаются через docker-compose)
+Образы django и nginx созданны и загружены на docker hub: morro14/docker-task-web:latest morro14/docker-task-nginx:latest (загружаются через docker-compose).
+
+Полный проект со сборкой Docker файлов на другой ветке: https://github.com/Morro14/docker-task/tree/dev.
 
 Запуск мультиконтейнера с помощью docker-compose
 
