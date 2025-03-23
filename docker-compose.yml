@@ -1,0 +1,37 @@
+services:
+  web:
+    image: morro14/docker-task-web:latest
+    command: gunicorn django_app.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/django_app/web/staticfiles 
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck: 
+      test: ["CMD-SHELL", "pg_isready -U postgres"]  
+      interval: 2s                                                            
+      timeout: 30s                                                            
+      retries: 15   
+  nginx:
+    image: morro14/docker-task-nginx:latest
+    volumes:
+      - static_volume:/home/django_app/web/staticfiles
+    ports:
+    - 1999:80
+    depends_on:
+    - web
+volumes:
+  postgres_data:
+  static_volume:
